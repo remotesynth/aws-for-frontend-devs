@@ -32,7 +32,6 @@ export class S3Stack extends cdk.Stack {
     new S3Deployment.BucketDeployment(this, "Deployment", {
       sources: [S3Deployment.Source.asset(path.join(__dirname, '../assets'))],
       destinationBucket: bucket,
-      destinationKeyPrefix: 'web/static',
     });
 
     // Output the bucket website URL

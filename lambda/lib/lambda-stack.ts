@@ -55,7 +55,7 @@ export class LambdaStack extends cdk.Stack {
       authType: lambda.FunctionUrlAuthType.NONE,
       cors:
         {
-          allowedMethods: [HttpMethod.GET],
+          allowedMethods: [HttpMethod.GET, HttpMethod.POST],
           allowedOrigins: ['*'],
         },
     });

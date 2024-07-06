@@ -42,7 +42,7 @@ export class CFS3Stack extends cdk.Stack {
     });
 
     new S3Deployment.BucketDeployment(this, "Deployment", {
-      sources: [S3Deployment.Source.asset(path.join(__dirname, '../assets'))],
+      sources: [S3Deployment.Source.asset(path.join(__dirname, '../../site_assets'))],
       destinationBucket: bucket,
     });
 

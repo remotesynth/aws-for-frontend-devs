@@ -45,7 +45,7 @@ export class LambdaStack extends cdk.Stack {
 
     // Create a Lambda function using the assets in the Lambda directory
     const lambdaFunction = new lambda.Function(this, 'HelloWorldFunction', {
-      runtime: lambda.Runtime.NODEJS_20_X,
+      runtime: lambda.Runtime.NODEJS_LATEST,
       code: lambda.Code.fromAsset('lambda'),
       handler: 'index.handler',
       
@@ -61,7 +61,7 @@ export class LambdaStack extends cdk.Stack {
     });
 
     new S3Deployment.BucketDeployment(this, "Deployment", {
-      sources: [S3Deployment.Source.asset(path.join(__dirname, '../assets'))],
+      sources: [S3Deployment.Source.asset(path.join(__dirname, '../../site_assets'))],
       destinationBucket: bucket,
     });
 

@@ -3,7 +3,9 @@ export const handler = async (event) => {
   // return a response once it is completed
   const response = {
     statusCode: 200,
-    body: JSON.stringify('Hello from Lambda!'),
+    body: {
+      message: 'Hello from Lambda!',
+    },
   };
   return response;
 };

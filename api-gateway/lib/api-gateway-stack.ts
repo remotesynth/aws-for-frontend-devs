@@ -6,9 +6,8 @@ import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as path from 'path';
-import {HttpMethod} from "aws-cdk-lib/aws-events";
 
-export class LambdaStack extends cdk.Stack {
+export class APIGatewayStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -55,7 +54,10 @@ export class LambdaStack extends cdk.Stack {
     const api = new apigateway.LambdaRestApi(this, 'HelloWorldApi', {
       handler: lambdaFunction,
       proxy: false,
-      
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowMethods: apigateway.Cors.ALL_METHODS
+      }
     });
         
     // Define the '/hello' resource with a GET method
@@ -63,7 +65,9 @@ export class LambdaStack extends cdk.Stack {
     helloResource.addMethod('GET');
 
     new S3Deployment.BucketDeployment(this, "Deployment", {
-      sources: [S3Deployment.Source.asset(path.join(__dirname, '../../site_assets'))],
+      sources: [
+        S3Deployment.Source.asset(path.join(__dirname, '../../site_assets')),
+        S3Deployment.Source.jsonData("config.json", { api_url: api.url }),],
       destinationBucket: bucket,
     });
 

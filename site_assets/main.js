@@ -1,3 +1,4 @@
+const messageDiv = document.getElementById('response-message');
 fetch('./config.json')
   .then((response) => {
     return response.json();
@@ -10,7 +11,7 @@ fetch('./config.json')
         })
         .catch((error) => {
           console.error('Error:', error);
-          // this is a hack to deal with potential URL differences in the output
+          // this is a little hack to deal with potential URL differences in the output when running locally
           const fixed = data.api_url.split('.').toSpliced(2, 1).join('.');
           console.log('fixed the local url:', fixed + 'hello');
           fetch(fixed + 'hello', {
@@ -19,11 +20,12 @@ fetch('./config.json')
             headers: {},
           })
             .then(async (response) => {
-              console.log(await response.text());
-              return response.text();
-            })
-            .then((data) => {
-              console.log(data);
+              const res = await response.json();
+              console.log('Success:', res);
+              if (res.message) {
+                messageDiv.innerHTML = `<p>A response was received from the API at ${fixed}</p>
+                <p>The message is: ${res.message}</p>`;
+              }
             })
             .catch((error) => {
               console.error('Error:', error);

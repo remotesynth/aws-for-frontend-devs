@@ -10,7 +10,7 @@ export const handler = async (event) => {
       'Access-Control-Allow-Origin': '*',
     },
     body: {
-      message: 'Hello from Lambda!',
+      message: 'You successfully called the Lambda from a function URL!',
     },
   };
   return response;

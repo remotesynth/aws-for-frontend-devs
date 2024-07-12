@@ -26,9 +26,8 @@ function loadAPIURL(url) {
       }
     })
     .catch((error) => {
-      console.error('Error:', error);
       // this is a little hack to deal with potential URL differences in the output when running locally
-      const fixed = data.api_url.split('.').toSpliced(2, 1).join('.');
+      const fixed = url.split('.').toSpliced(2, 1).join('.');
       console.log('fixed the local url:', fixed + 'hello');
       fetch(fixed + 'hello', {
         method: 'GET',

@@ -29,3 +29,15 @@ header, footer {
 footer {
     margin-top: 20px;
 }
+
+#response-message {
+  color: #000;
+  border-width: 1px;
+  border-style: solid;
+  padding: 0.6em;
+  margin: 5px 0 15px;
+  border-radius: 3px;
+  border: #cee1ef 1px solid;
+  background-color: #f0f8ff;
+  color: #31708f;
+}

@@ -8,7 +8,7 @@ fetch('./config.json')
     if (res.api_url) {
       loadAPIURL(res.api_url);
     } else if (res.function_url) {
-      loadAPIURL(res.function_url);
+      loadFunctionURL(res.function_url);
     }
   })
   .catch((error) => {
@@ -29,6 +29,38 @@ function loadAPIURL(url) {
       // this is a little hack to deal with potential URL differences in the output when running locally
       const fixed = url.split('.').toSpliced(2, 1).join('.');
       console.log('fixed the local url:', fixed + 'hello');
+      fetch(fixed + 'hello', {
+        method: 'GET',
+        mode: 'cors',
+        headers: {},
+      })
+        .then(async (response) => {
+          const res = await response.json();
+          if (res.message) {
+            returnMessage(fixed, res.message);
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    });
+}
+
+function loadFunctionURL(url) {
+  console.log(`loading the Lambda function URL: ${url}`);
+  fetch(url)
+    .then(async (response) => {
+      const res = await response.json();
+      console.log('Success:', res);
+      if (res.message) {
+        returnMessage(url, res.message);
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      // another hack to deal with the local URL value being returned as http
+      const fixed = url.replace('http://', 'https://');
+      console.log('fixed the local url to SSL');
       fetch(fixed + 'hello', {
         method: 'GET',
         mode: 'cors',

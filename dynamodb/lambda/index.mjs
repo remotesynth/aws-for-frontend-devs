@@ -5,7 +5,9 @@ const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
 export const handler = async (event) => {
-  let message = '';
+  let body = {
+    message: '',
+  };
   // perform the operation
   const command = new GetCommand({
     TableName: process.env.DYNAMO_TABLE_NAME,
@@ -14,7 +16,7 @@ export const handler = async (event) => {
     },
   });
   const data = await docClient.send(command);
-  message = data.Item.Message;
+  body.message = data.Item.message;
   // return a response once it is completed
   const response = {
     statusCode: 200,
@@ -24,9 +26,7 @@ export const handler = async (event) => {
       'Access-Control-Allow-Methods': '*',
       'Access-Control-Allow-Origin': '*',
     },
-    body: {
-      message: message,
-    },
+    body: JSON.stringify(body),
   };
   return response;
 };

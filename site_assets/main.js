@@ -12,7 +12,9 @@ fetch('./config.json')
     }
   })
   .catch((error) => {
-    console.error('Error:', error);
+    console.error(
+      "The config load failed. This is an expected error if you haven't deployed the Lambda yet."
+    );
   });
 
 function loadAPIURL(url) {

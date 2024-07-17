@@ -1,4 +1,7 @@
 export const handler = async (event) => {
+  let body = {
+    message: 'You successfully called the Lambda from API Gateway!',
+  };
   // perform the operation
   // return a response once it is completed
   const response = {
@@ -9,9 +12,7 @@ export const handler = async (event) => {
       'Access-Control-Allow-Methods': '*',
       'Access-Control-Allow-Origin': '*',
     },
-    body: {
-      message: 'You successfully called the Lambda from API Gateway!',
-    },
+    body: JSON.stringify(body),
   };
   return response;
 };

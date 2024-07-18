@@ -79,9 +79,8 @@ export class DynamoDBStack extends cdk.Stack {
     table.grantReadData(lambdaFunction);
 
     // Define the API Gateway resource
-    const api = new apigateway.LambdaRestApi(this, 'HelloWorldApi', {
-      handler: lambdaFunction,
-      proxy: false,
+    const api = new apigateway.RestApi(this, 'HelloWorldApi', {
+      restApiName: 'RestAPI',
       defaultCorsPreflightOptions: {
         allowOrigins: apigateway.Cors.ALL_ORIGINS,
         allowMethods: apigateway.Cors.ALL_METHODS
@@ -90,7 +89,8 @@ export class DynamoDBStack extends cdk.Stack {
         
     // Define the '/hello' resource with a GET method
     const helloResource = api.root.addResource('hello');
-    helloResource.addMethod('GET');
+    const helloIntegration = new apigateway.LambdaIntegration(lambdaFunction);
+    helloResource.addMethod('GET', helloIntegration);
 
     new S3Deployment.BucketDeployment(this, "Deployment", {
       sources: [

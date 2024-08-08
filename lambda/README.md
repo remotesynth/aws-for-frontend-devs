@@ -12,9 +12,10 @@ Start LocalStack from the terminal:
 localstack start
 ```
 
-Next, bootstrap the deployment.
+Next, install the dependencies and bootstrap the deployment.
 
 ```bash
+npm install
 cdklocal bootstrap
 ```
 

@@ -1,1 +1,5 @@
 .DS_Store
+.vscode
+cdk.context.json
+cdk.out
+node_modules
